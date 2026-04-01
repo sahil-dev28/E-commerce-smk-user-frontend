@@ -11,7 +11,7 @@ export default function OrderPayment({
   couponId,
   selectedAddressId,
 }: {
-  couponId: string;
+  couponId: string | undefined;
   selectedAddressId: string;
 }) {
   const [showAlert, setShowAlert] = useState(false);
