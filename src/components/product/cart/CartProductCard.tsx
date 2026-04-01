@@ -159,19 +159,32 @@ export default function CartProudctCard({ cartProduct }: CartProductProps) {
                     <SelectValue placeholder="Select address" />
                   </SelectTrigger>
                   <SelectContent className="max-w-[400px]">
-                    {showMeAddress.data?.addresses.map((address: Address) => (
-                      <SelectItem key={address.id} value={address.id}>
-                        <div className="flex flex-col gap-1 w-full">
-                          <span className="font-semibold">
-                            {address.address}
-                          </span>
-                          <span className="text-muted-foreground">
-                            {address.city}, {address.state} - {address.pincode}
-                          </span>
-                          {/* <Badge className="mt-1">{address.type}</Badge> */}
-                        </div>
-                      </SelectItem>
-                    ))}
+                    {showMeAddress.data?.addresses.length === 0 ? (
+                      <div className="p-5 text-center">
+                        <p className="text-muted-foreground">
+                          No address found. Please add an address to proceed.
+                        </p>
+                        <Link to="/profile/address">
+                          <button className="mt-3 px-4 py-2 bg-primary text-white rounded">
+                            Add Address
+                          </button>
+                        </Link>
+                      </div>
+                    ) : (
+                      showMeAddress.data?.addresses.map((address: Address) => (
+                        <SelectItem key={address.id} value={address.id}>
+                          <div className="flex flex-col gap-1 w-full">
+                            <span className="font-semibold">
+                              {address.address}
+                            </span>
+                            <span className="text-muted-foreground">
+                              {address.city}, {address.state} -{" "}
+                              {address.pincode}
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))
+                    )}
                   </SelectContent>
                 </Select>
               </div>
