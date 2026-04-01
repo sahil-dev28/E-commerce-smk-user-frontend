@@ -10,9 +10,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useRemoveFromCart } from "@/hooks/product/cart/useRemoveFromCartProduct";
+import type { Product } from "@/types/auth.type";
 import { Trash2 } from "lucide-react";
 
-export function AlertDeleteDialog({ product }) {
+export function AlertDeleteDialog({ product }: { product: Product }) {
   const { mutateAsync: removeFromCart } = useRemoveFromCart();
 
   const removeFromCartHandler = async () => {
@@ -28,7 +29,14 @@ export function AlertDeleteDialog({ product }) {
       <AlertDialogContent className="w-96">
         <div className="flex gap-5">
           <div>
-            <img src={product.image} className="size-15" />
+            <img
+              src={
+                typeof product.image === "string"
+                  ? product.image
+                  : URL.createObjectURL(product.image)
+              }
+              className="size-15"
+            />
           </div>
           <div>
             <AlertDialogHeader>

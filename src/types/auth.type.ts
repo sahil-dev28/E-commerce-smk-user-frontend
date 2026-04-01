@@ -45,7 +45,7 @@ export interface Product {
   price: number;
   discount: string;
   discountAmount: number;
-  image: File;
+  image: File | string;
   categoryId: string;
   description: string;
   featured: string;
