@@ -32,7 +32,7 @@ export default function OrderPayment({
 
   const paymentHandler = ({ order, key }: { order: Order; key: string }) => {
     const options: RazorpayOrderOptions = {
-      name: userDetails?.user.firstName ?? "",
+      name: userDetails?.user.firstName ?? "Customer",
       amount: order.amount,
       currency: order.currency,
       order_id: order.id,
