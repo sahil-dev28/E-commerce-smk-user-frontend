@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import SearchInput from "./SearchInput";
+import useGetCartProduct from "@/hooks/product/cart/useGetCartProduct";
 
 type props = {
   onSearch: (value: string) => void;
@@ -20,6 +21,15 @@ type props = {
 export function Navbar({ onSearch }: props) {
   const isAuthorized = useAuthStore((state) => state.isAuthorized);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const {
+    data: showMeProduct,
+    // isLoading: productIsLoading,
+    // isFetching: productIsFetching,
+    // isSuccess: productIsSuccess,
+    // error: productError,
+  } = useGetCartProduct();
+  const cartProduct = showMeProduct?.products || [];
 
   return (
     <nav>
@@ -220,13 +230,18 @@ export function Navbar({ onSearch }: props) {
             <li>
               <Tooltip>
                 <TooltipTrigger>
-                  <div className="rounded-none shadow-none focus-visible:z-10 p-0">
+                  <div className="rounded-none shadow-none focus-visible:z-10 p-0 relative">
                     <Link to="/product/cart" className="text-[12px]">
                       <ShoppingCartIcon
                         className="mx-auto"
                         size={20}
                         strokeWidth={"1.5"}
                       />
+                      {cartProduct.length > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+                          {cartProduct.length}
+                        </span>
+                      )}
                       Cart
                     </Link>
                   </div>
@@ -238,7 +253,6 @@ export function Navbar({ onSearch }: props) {
             </li>
             <li>
               <ModeToggle />
-              {/* <ThemeToggle /> */}
             </li>
           </ul>
           <ul className="sm:hidden flex gap-5 justify-center items-center">
