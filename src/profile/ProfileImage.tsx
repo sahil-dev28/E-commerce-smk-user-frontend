@@ -60,7 +60,9 @@ const ProfileImage = ({ profileImage, profileImageId }: ProfileImageProps) => {
           </Avatar>
         )}
 
-        <Button className="w-fit flex mx-auto">Update Profile</Button>
+        <Button className="w-fit flex mx-auto cursor-pointer">
+          Update Profile Image
+        </Button>
 
         <input {...getInputProps()} />
       </div>

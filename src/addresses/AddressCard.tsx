@@ -76,7 +76,7 @@ const AddressItem = ({ address }: AddressProps) => {
 
         <Button
           variant="ghost"
-          className="flex-1 text-destructive hover:text-destructive"
+          className="flex-1 text-destructive hover:text-destructive cursor-pointer"
           onClick={() => setIsDeleteOpen(true)}
         >
           Remove

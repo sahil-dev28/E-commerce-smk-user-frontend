@@ -276,7 +276,7 @@ export default function ProfileOverview() {
                   <Button
                     type="submit"
                     disabled={form.formState.isSubmitting}
-                    className="cursor-pointer xl:mt-10 xl:mx-164 w-fit"
+                    className="xl:mt-10 xl:mx-164 w-fit cursor-pointer"
                   >
                     {form.formState.isSubmitting
                       ? "Updating..."
