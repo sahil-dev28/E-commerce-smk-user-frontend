@@ -34,7 +34,7 @@ export default function ProductCard({ products }: ProductProps) {
             All New Collection
           </h2>
         </div>
-    
+
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {/* Product Cards */}
           {products.map((product) => {
@@ -99,7 +99,7 @@ export default function ProductCard({ products }: ProductProps) {
                     <div className="flex items-center justify-between">
                       {!product.discountAmount && (
                         <span className="text-2xl font-semibold">
-                          ${product.price}
+                          ₹{product.price}
                         </span>
                       )}
                       {product.discountAmount ? (
