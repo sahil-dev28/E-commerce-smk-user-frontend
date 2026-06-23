@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronDownIcon, LogOut, MoreVertical, Users } from "lucide-react";
+import { ChevronDownIcon, LogOut, Users } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import {
@@ -31,16 +31,11 @@ import { useProfileUpdate } from "@/hooks/profile/useProfileUpdate";
 import type { UpdateProfileData } from "@/types/auth.type";
 import { updateProfileSchema } from "@/schemas";
 import ProfileImage from "./ProfileImage";
+import ProfileOverviewLoading from "./ProfileOverviewLoading";
 import { AddressForm } from "@/components/address/CreateAddressForm";
 import { useGetAddress } from "@/hooks/address/useGetAddress";
 import AddressCard from "@/addresses/AddressCard";
 import { useLogout } from "@/hooks/auth/useLogout";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -98,7 +93,7 @@ export default function ProfileOverview() {
     }
   };
 
-  if (isLoading) return <div className="p-10">Loading...</div>;
+  if (isLoading) return <ProfileOverviewLoading />;
   if (isError) return <div className="p-10">Failed to load profile</div>;
 
   return (
@@ -106,51 +101,6 @@ export default function ProfileOverview() {
       <div className="px-10 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 mx-auto">
           <Card className="flex flex-col items-center p-0 relative">
-            <div className="absolute top-4 right-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="cursor-pointer"
-                  >
-                    <MoreVertical className="w-5 h-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpenDialog(true);
-                    }}
-                    className="cursor-pointer text-red-500 focus:text-red-500"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you sure you want to log out?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. You will be logged out from
-                      your account.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={logoutHandler}>
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
             <ProfileImage
               profileImage={showMeData?.user.profileImage}
               profileImageId={showMeData?.user.profileImageId}
@@ -158,10 +108,38 @@ export default function ProfileOverview() {
             <h1 className="text-lg font-semibold mt-15">
               {showMeData?.user.firstName} {showMeData?.user.lastName}
             </h1>
-            <div className="flex items-center mb-4 gap-2 lg:mt-4 text-muted-foreground">
+            <div className="flex items-center gap-2 lg:mt-4 text-muted-foreground">
               <Users />
               Profile Overview
             </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mt-2 mb-4 text-destructive hover:text-destructive hover:bg-destructive/10 cursor-pointer gap-1.5"
+              onClick={() => setOpenDialog(true)}
+            >
+              <LogOut className="h-4 w-4" />
+              Log out
+            </Button>
+            <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to log out?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. You will be logged out from
+                    your account.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={logoutHandler}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </Card>
           <div className="xl:w-250 flex justify-center">
             <Card className="max-w-4xl w-full">
@@ -287,11 +265,11 @@ export default function ProfileOverview() {
             </Card>
           </div>
         </div>
-        <div className="gap-8 max-w-fit mx-auto mt-10">
-          <div className="xl:w-250 flex justify-center">
+        <div className="w-full mt-10">
+          <div className="flex justify-center">
             <Card className="max-w-4xl w-full">
               <CardHeader>
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between">
                   <CardTitle>Address Book</CardTitle>
                   <AddressForm mode="create" />
                 </div>

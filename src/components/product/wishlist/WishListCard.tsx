@@ -44,7 +44,7 @@ export default function WishListCard({ products }: ProductProps) {
             <Card
               key={product.id}
               className={cn(
-                "shadow-none ring-0 pt-0 pb-2 border relative w-fit h-fit md:w-100 lg:w-full",
+                "shadow-none ring-0 pt-0 pb-2 border relative w-full h-full",
               )}
             >
               {/* Product Image */}
@@ -74,10 +74,10 @@ export default function WishListCard({ products }: ProductProps) {
 
               <CardContent className="flex flex-1 flex-col justify-between">
                 {/* Product Details */}
-                <div className="space-y-2">
+                <div className="flex flex-col flex-1 gap-2">
                   <div className="flex flex-col gap-2 text-center">
                     <Link to={`/product/${product.id}`}>
-                      <h3 className="text-xl font-medium">{product.name}</h3>
+                      <h3 className="text-xl font-medium line-clamp-2">{product.name}</h3>
                     </Link>
                   </div>
 

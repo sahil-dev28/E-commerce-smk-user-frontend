@@ -7,6 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import type { Address, Product } from "@/types/auth.type";
 import { Clock } from "lucide-react";
 import { AlertDeleteDialog } from "./AlertDeleteDialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
 import useGetCartTotalPrice from "@/hooks/product/cart/useGetCartPrice";
 import {
   Select,
@@ -149,45 +151,54 @@ export default function CartProudctCard({ cartProduct }: CartProductProps) {
               <div className="space-y-2">
                 <h3 className="text-xl font-bold">Select Address</h3>
               </div>
-              <div className="flex gap-2 justify-between items-center overflow-hidden">
-                <Select
-                  onValueChange={(value) => {
-                    setSelectedAddress(value);
-                  }}
+
+              {showMeAddress.data?.addresses.length === 0 ? (
+                <div className="p-5 text-center">
+                  <p className="text-muted-foreground">
+                    No address found. Please add an address to proceed.
+                  </p>
+                  <Link to="/profile/address">
+                    <button className="mt-3 px-4 py-2 bg-primary text-white rounded">
+                      Add Address
+                    </button>
+                  </Link>
+                </div>
+              ) : (
+                <RadioGroup
+                  value={selectedAddress}
+                  onValueChange={setSelectedAddress}
+                  className="mt-3 space-y-2"
                 >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select address" />
-                  </SelectTrigger>
-                  <SelectContent className="max-w-[400px]">
-                    {showMeAddress.data?.addresses.length === 0 ? (
-                      <div className="p-5 text-center">
-                        <p className="text-muted-foreground">
-                          No address found. Please add an address to proceed.
-                        </p>
-                        <Link to="/profile/address">
-                          <button className="mt-3 px-4 py-2 bg-primary text-white rounded">
-                            Add Address
-                          </button>
-                        </Link>
+                  {showMeAddress.data?.addresses.map((address: Address) => (
+                    <label
+                      key={address.id}
+                      htmlFor={address.id}
+                      className={cn(
+                        "flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors hover:bg-muted/50",
+                        selectedAddress === address.id &&
+                          "border-primary bg-primary/5",
+                      )}
+                    >
+                      <RadioGroupItem
+                        value={address.id}
+                        id={address.id}
+                        className="mt-1 shrink-0"
+                      />
+                      <div className="flex flex-col gap-0.5 text-sm">
+                        <span className="font-medium">{address.address}</span>
+                        <span className="text-muted-foreground">
+                          {address.city}, {address.state} — {address.pincode}
+                        </span>
+                        {address.type && (
+                          <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                            {address.type}
+                          </span>
+                        )}
                       </div>
-                    ) : (
-                      showMeAddress.data?.addresses.map((address: Address) => (
-                        <SelectItem key={address.id} value={address.id}>
-                          <div className="flex flex-col gap-1 w-full">
-                            <span className="font-semibold">
-                              {address.address}
-                            </span>
-                            <span className="text-muted-foreground">
-                              {address.city}, {address.state} -{" "}
-                              {address.pincode}
-                            </span>
-                          </div>
-                        </SelectItem>
-                      ))
-                    )}
-                  </SelectContent>
-                </Select>
-              </div>
+                    </label>
+                  ))}
+                </RadioGroup>
+              )}
             </Card>
           </div>
           {/* Pricing */}

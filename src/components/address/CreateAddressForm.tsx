@@ -56,7 +56,7 @@ export function AddressForm({ mode, address }: DialogDemoProps) {
         type: address.type,
       });
     }
-  }, [address, mode]);
+  }, [address, mode, form]);
 
   console.log({ errors: form.formState.errors, values: form.getValues() });
 

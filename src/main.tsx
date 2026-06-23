@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import MainLayout from "./products/layout/MainLayout.tsx";
 import ProductList from "./components/product/ProductList.tsx";
+import HomePage from "./pages/HomePage.tsx";
 import ProductPage from "./components/product/id/ProductPage.tsx";
 import RedirectUser from "./products/layout/RedirectUser.tsx";
 import AuthLayout from "./products/layout/AuthLayout.tsx";
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <ProductList search="" />,
+        element: <HomePage />,
       },
       {
         path: "/product/:id",
